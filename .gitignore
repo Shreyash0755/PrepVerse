@@ -65,3 +65,6 @@ coverage/
 
 # Keep Maven Wrapper JAR
 !.mvn/wrapper/maven-wrapper.jar
+
+# User uploads
+uploads/

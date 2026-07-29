@@ -1,0 +1,192 @@
+export const SKILLS = [
+  // Programming Languages
+  "C",
+  "C++",
+  "C#",
+  "Dart",
+  "Go",
+  "Java",
+  "JavaScript",
+  "Kotlin",
+  "PHP",
+  "Python",
+  "R",
+  "Ruby",
+  "Rust",
+  "Scala",
+  "Swift",
+  "TypeScript",
+
+  // Web Fundamentals
+  "HTML",
+  "CSS",
+  "Responsive Web Design",
+  "Web Development",
+  "Frontend Development",
+  "Backend Development",
+  "Full-Stack Development",
+
+  // Frontend
+  "Angular",
+  "Bootstrap",
+  "Chakra UI",
+  "Material UI",
+  "Next.js",
+  "React.js",
+  "React Native",
+  "Redux",
+  "Redux Toolkit",
+  "Sass",
+  "Tailwind CSS",
+  "Vue.js",
+  "Vite",
+
+  // Backend
+  "ASP.NET Core",
+  "Django",
+  "Express.js",
+  "FastAPI",
+  "Flask",
+  "Hibernate",
+  "Jakarta EE",
+  "JPA",
+  "Laravel",
+  "Microservices",
+  "Node.js",
+  "REST APIs",
+  "GraphQL",
+  "Spring",
+  "Spring Boot",
+  "Spring MVC",
+  "Spring Security",
+
+  // Databases
+  "Cassandra",
+  "Database Management Systems (DBMS)",
+  "Firebase",
+  "HBase",
+  "MongoDB",
+  "MySQL",
+  "Oracle Database",
+  "PostgreSQL",
+  "Redis",
+  "SQL",
+  "SQLite",
+
+  // Cloud
+  "Amazon Web Services (AWS)",
+  "AWS EC2",
+  "AWS Lambda",
+  "AWS S3",
+  "Google Cloud Platform (GCP)",
+  "Microsoft Azure",
+  "Cloud Computing",
+
+  // DevOps
+  "Ansible",
+  "CI/CD",
+  "DevOps",
+  "Docker",
+  "GitHub Actions",
+  "Jenkins",
+  "Kubernetes",
+  "Terraform",
+
+  // Version Control
+  "Git",
+  "GitHub",
+  "GitLab",
+  "Bitbucket",
+
+  // AI / ML
+  "Artificial Intelligence",
+  "Computer Vision",
+  "Deep Learning",
+  "Generative AI",
+  "Large Language Models (LLMs)",
+  "Machine Learning",
+  "Natural Language Processing (NLP)",
+  "Neural Networks",
+  "Prompt Engineering",
+  "Reinforcement Learning",
+  "scikit-learn",
+  "TensorFlow",
+  "PyTorch",
+
+  // Data Science / Analytics
+  "Apache Hadoop",
+  "Apache Kafka",
+  "Apache Spark",
+  "Big Data",
+  "Data Analysis",
+  "Data Engineering",
+  "Data Science",
+  "Data Visualization",
+  "Matplotlib",
+  "NumPy",
+  "Pandas",
+  "Power BI",
+  "Tableau",
+
+  // CS Fundamentals
+  "Algorithms",
+  "Computer Networks",
+  "Data Structures",
+  "Data Structures and Algorithms",
+  "Design Patterns",
+  "Object-Oriented Programming (OOP)",
+  "Operating Systems",
+  "Software Engineering",
+  "System Design",
+
+  // Testing
+  "Cypress",
+  "JUnit",
+  "Postman",
+  "Selenium",
+  "Software Testing",
+  "Test Automation",
+  "Unit Testing",
+  "Vitest",
+
+  // Developer Tools
+  "Eclipse",
+  "IntelliJ IDEA",
+  "Maven",
+  "Gradle",
+  "npm",
+  "Visual Studio",
+  "Visual Studio Code",
+
+  // Operating Systems
+  "Linux",
+  "Ubuntu",
+  "Windows",
+
+  // Mobile
+  "Android Development",
+  "Flutter",
+  "iOS Development",
+
+  // Cybersecurity
+  "Cybersecurity",
+  "Ethical Hacking",
+  "Network Security",
+  "Penetration Testing",
+  "Web Security",
+
+  // UI / UX
+  "Adobe XD",
+  "Figma",
+  "UI Design",
+  "UX Design",
+
+  // Professional
+  "Agile Methodologies",
+  "Communication",
+  "Leadership",
+  "Problem Solving",
+  "Project Management",
+  "Scrum",
+  "Teamwork",
+] as const;
