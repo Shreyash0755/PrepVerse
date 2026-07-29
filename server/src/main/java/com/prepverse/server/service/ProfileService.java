@@ -4,6 +4,7 @@ import com.prepverse.server.dto.ProfileRequest;
 import com.prepverse.server.dto.ProfileResponse;
 import com.prepverse.server.entity.Profile;
 import com.prepverse.server.entity.User;
+import com.prepverse.server.exception.ProfileNotFoundException;
 import com.prepverse.server.repository.ProfileRepository;
 import com.prepverse.server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +34,9 @@ public class ProfileService {
         User user = getCurrentUser();
 
         Profile profile = profileRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Profile not found"));
+                .orElseThrow(() ->
+                        new ProfileNotFoundException("Profile not found")
+                );
 
         return toResponse(profile);
     }

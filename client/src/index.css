@@ -1,0 +1,117 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0b0f0d;
+  --surface: #101512;
+  --surface-raised: #161d19;
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --ink: #edefec;
+  --ink-muted: #9ca39c;
+  --ink-faint: #626960;
+  --accent-rgb: 16 185 129;
+  --accent-bright-rgb: 52 211 153;
+  --accent-soft: rgba(16, 185, 129, 0.16);
+  --accent-ink: #04140d;
+  --danger-rgb: 248 113 113;
+  --warn-rgb: 251 191 36;
+}
+
+:root[data-theme="light"] {
+  --bg: #f7f5f0;
+  --surface: #ffffff;
+  --surface-raised: #fcfbf8;
+  --border: #e6e2d8;
+  --border-strong: #d6d1c3;
+  --ink: #181b17;
+  --ink-muted: #5b6158;
+  --ink-faint: #8b8f85;
+  --accent-rgb: 13 150 104;
+  --accent-bright-rgb: 5 150 105;
+  --accent-soft: rgba(13, 150, 104, 0.1);
+  --accent-ink: #ffffff;
+  --danger-rgb: 220 38 38;
+  --warn-rgb: 180 83 9;
+}
+
+* {
+  border-color: var(--border);
+}
+
+html {
+  color-scheme: dark;
+}
+html[data-theme="light"] {
+  color-scheme: light;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: "Inter", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+::selection {
+  background-color: var(--accent-soft);
+  color: var(--ink);
+}
+
+/* Focus visibility — never sacrificed for aesthetics */
+:focus-visible {
+  outline: 2px solid rgb(var(--accent-bright-rgb));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+}
+
+/* Signature: faint blueprint/grid backdrop used sparingly behind hero + auth panels */
+.grid-field {
+  background-image: linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+/* Terminal window chrome used for the signature "build log" element */
+.term-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 999px;
+}
+
+.caret::after {
+  content: "";
+  display: inline-block;
+  width: 0.55ch;
+  height: 1.05em;
+  background: rgb(var(--accent-bright-rgb));
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  animation: blink 1.1s step-end infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
