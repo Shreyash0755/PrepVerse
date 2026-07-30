@@ -1,8 +1,11 @@
 package com.prepverse.server.controller;
 
 import com.prepverse.server.dto.ParsedResume;
+import com.prepverse.server.dto.ResumeAnalysisResponse;
 import com.prepverse.server.dto.ResumeResponse;
 import com.prepverse.server.entity.Resume;
+import com.prepverse.server.service.ResumeAiService;
+import com.prepverse.server.service.ResumeAnalysisService;
 import com.prepverse.server.service.ResumeParserService;
 import com.prepverse.server.service.ResumeService;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +20,8 @@ public class ResumeController {
 
     private final ResumeService resumeService;
     private final ResumeParserService resumeParserService;
+    private final ResumeAnalysisService resumeAnalysisService;
+    private final ResumeAiService resumeAiService;
 
     @PostMapping
     public ResponseEntity<ResumeResponse> uploadResume(
@@ -44,5 +49,33 @@ public class ResumeController {
                 resumeParserService.parse(resume.getExtractedText());
 
         return ResponseEntity.ok(parsedResume);
+    }
+
+    @GetMapping("/analysis")
+    public ResponseEntity<ResumeAnalysisResponse> analyzeResume() {
+
+        Resume resume = resumeService.getCurrentResumeEntity();
+
+        ParsedResume parsedResume = resumeParserService.parse(
+                resume.getExtractedText()
+        );
+
+        return ResponseEntity.ok(
+                resumeAnalysisService.analyze(parsedResume)
+        );
+    }
+
+    @GetMapping("/ai-analysis")
+    public ResponseEntity<String> analyzeResumeWithAi() {
+
+        Resume resume = resumeService.getCurrentResumeEntity();
+
+        ParsedResume parsed = resumeParserService.parse(
+                resume.getExtractedText()
+        );
+
+        return ResponseEntity.ok(
+                resumeAiService.analyze(parsed)
+        );
     }
 }

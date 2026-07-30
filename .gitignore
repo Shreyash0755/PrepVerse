@@ -68,3 +68,9 @@ coverage/
 
 # User uploads
 uploads/
+
+# TypeScript build cache
+*.tsbuildinfo
+
+dist/
+*.tsbuildinfo
