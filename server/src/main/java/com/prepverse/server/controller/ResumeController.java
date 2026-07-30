@@ -1,13 +1,8 @@
 package com.prepverse.server.controller;
 
-import com.prepverse.server.dto.ParsedResume;
-import com.prepverse.server.dto.ResumeAnalysisResponse;
-import com.prepverse.server.dto.ResumeResponse;
+import com.prepverse.server.dto.*;
 import com.prepverse.server.entity.Resume;
-import com.prepverse.server.service.ResumeAiService;
-import com.prepverse.server.service.ResumeAnalysisService;
-import com.prepverse.server.service.ResumeParserService;
-import com.prepverse.server.service.ResumeService;
+import com.prepverse.server.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +17,7 @@ public class ResumeController {
     private final ResumeParserService resumeParserService;
     private final ResumeAnalysisService resumeAnalysisService;
     private final ResumeAiService resumeAiService;
+    private final FullResumeAnalysisService fullResumeAnalysisService;
 
     @PostMapping
     public ResponseEntity<ResumeResponse> uploadResume(
@@ -66,7 +62,7 @@ public class ResumeController {
     }
 
     @GetMapping("/ai-analysis")
-    public ResponseEntity<String> analyzeResumeWithAi() {
+    public ResponseEntity<AiResumeAnalysis> analyzeResumeWithAi() {
 
         Resume resume = resumeService.getCurrentResumeEntity();
 
@@ -76,6 +72,20 @@ public class ResumeController {
 
         return ResponseEntity.ok(
                 resumeAiService.analyze(parsed)
+        );
+    }
+
+    @GetMapping("/full-analysis")
+    public ResponseEntity<FullResumeAnalysisResponse> getFullAnalysis() {
+
+        Resume resume = resumeService.getCurrentResumeEntity();
+
+        ParsedResume parsedResume = resumeParserService.parse(
+                resume.getExtractedText()
+        );
+
+        return ResponseEntity.ok(
+                fullResumeAnalysisService.analyze(parsedResume)
         );
     }
 }

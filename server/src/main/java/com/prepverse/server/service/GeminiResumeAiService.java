@@ -2,6 +2,7 @@ package com.prepverse.server.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.prepverse.server.dto.AiResumeAnalysis;
 import com.prepverse.server.dto.ParsedResume;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,29 +25,68 @@ public class GeminiResumeAiService implements ResumeAiService {
     private final RestClient restClient = RestClient.create();
 
     @Override
-    public String analyze(ParsedResume resume) {
+    public AiResumeAnalysis analyze(ParsedResume resume) {
 
         String prompt = """
-                You are a technical resume reviewer for engineering and computer science students.
+            You are a technical resume reviewer specializing in
+            engineering and computer science student resumes.
 
-                Analyze the resume below.
+            Analyze ONLY the supplied resume.
 
-                Evaluate:
-                - summary quality
-                - experience quality
-                - project quality
-                - technical skills
-                - clarity
-                - measurable impact
-                - weaknesses
-                - actionable improvements
+            Evaluate these dimensions:
+            - summary
+            - experience
+            - projects
+            - skills
+            - clarity
+            - measurable impact
 
-                Do not invent achievements, numbers, technologies, or experience.
-                Base your analysis only on the supplied resume.
+            SCORING:
+            Give each dimension an integer score from 0 to 100.
 
-                Resume:
-                %s
-                """.formatted(resume.getNormalizedText());
+            contentScore should represent the overall CONTENT QUALITY
+            of the resume, not merely whether sections exist.
+
+            IMPORTANT RULES:
+            - Do not invent achievements, metrics, technologies, dates,
+              responsibilities, or experience.
+            - Do not assume a technology was used unless the resume says so.
+            - Missing measurable impact should reduce the impact score.
+            - Generic duty-oriented experience bullets should reduce the
+              experience score.
+            - Strong technically detailed projects should be rewarded.
+            - Skills unsupported by projects or experience may be flagged.
+            - Do not penalize a student simply for having limited professional
+              experience.
+            - Suggestions must be specific and actionable.
+            - Never suggest fabricated metrics. If metrics are unavailable,
+              recommend measuring or adding truthful metrics where possible.
+
+            Return JSON ONLY with exactly this structure:
+
+            {
+              "contentScore": 0,
+              "sectionScores": {
+                "summary": 0,
+                "experience": 0,
+                "projects": 0,
+                "skills": 0,
+                "clarity": 0,
+                "impact": 0
+              },
+              "strengths": [],
+              "issues": [],
+              "suggestions": []
+            }
+
+            Resume:
+
+            %s
+            """.formatted(resume.getNormalizedText());
+
+        Map<String, Object> generationConfig = Map.of(
+                "responseMimeType", "application/json"
+        );
 
         Map<String, Object> body = Map.of(
                 "contents", List.of(
@@ -55,7 +95,8 @@ public class GeminiResumeAiService implements ResumeAiService {
                                         Map.of("text", prompt)
                                 )
                         )
-                )
+                ),
+                "generationConfig", generationConfig
         );
 
         String response = restClient.post()
@@ -67,9 +108,10 @@ public class GeminiResumeAiService implements ResumeAiService {
                 .body(String.class);
 
         try {
+
             JsonNode root = objectMapper.readTree(response);
 
-            return root
+            String json = root
                     .path("candidates")
                     .path(0)
                     .path("content")
@@ -78,9 +120,15 @@ public class GeminiResumeAiService implements ResumeAiService {
                     .path("text")
                     .asText();
 
+            return objectMapper.readValue(
+                    json,
+                    AiResumeAnalysis.class
+            );
+
         } catch (Exception e) {
+
             throw new RuntimeException(
-                    "Failed to parse Gemini response",
+                    "Failed to parse Gemini resume analysis",
                     e
             );
         }

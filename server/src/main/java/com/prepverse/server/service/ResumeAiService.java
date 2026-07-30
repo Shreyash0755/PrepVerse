@@ -1,8 +1,9 @@
 package com.prepverse.server.service;
 
+import com.prepverse.server.dto.AiResumeAnalysis;
 import com.prepverse.server.dto.ParsedResume;
 
 public interface ResumeAiService {
 
-    String analyze(ParsedResume resume);
+    AiResumeAnalysis analyze(ParsedResume resume);
 }
